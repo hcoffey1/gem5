@@ -596,6 +596,10 @@ Sequencer::hitCallback(SequencerRequest* srequest, DataBlock& data,
                          externalHit ? "miss" : "hit",
                          printAddress(request_address));
 
+    DPRINTFR(RubyHitMiss, "Cache %s at %#x\n",
+                         externalHit ? "miss" : "hit",
+                         printAddress(request_address));
+
     DPRINTFR(ProtocolTrace, "%15s %3s %10s%20s %6s>%-6s %#x %d cycles\n",
              curTick(), m_version, "Seq",
              llscSuccess ? "Done" : "SC_Failed", "", "",
