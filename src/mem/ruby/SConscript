@@ -55,6 +55,7 @@ DebugFlag('RubySystem')
 DebugFlag('RubyTester')
 DebugFlag('RubyStats')
 DebugFlag('RubyResourceStalls')
+DebugFlag('RubyHitMiss')
 
 CompoundFlag('Ruby', [ 'RubyQueue', 'RubyNetwork', 'RubyTester',
     'RubyGenerated', 'RubySlicc', 'RubySystem', 'RubyCache',
