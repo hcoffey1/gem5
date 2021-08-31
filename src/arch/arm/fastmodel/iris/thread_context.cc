@@ -46,6 +46,7 @@
 
 #include "arch/arm/fastmodel/iris/cpu.hh"
 #include "arch/arm/fastmodel/iris/memory_spaces.hh"
+#include "arch/arm/regs/vec.hh"
 #include "arch/arm/system.hh"
 #include "arch/arm/utility.hh"
 #include "base/logging.hh"
@@ -891,7 +892,7 @@ ThreadContext::readVecReg(const RegId &reg_id) const
 const ArmISA::VecRegContainer &
 ThreadContext::readVecRegFlat(RegIndex idx) const
 {
-    return readVecReg(RegId(VecRegClass, idx));
+    return readVecReg(ArmISA::vecRegClass[idx]);
 }
 
 const ArmISA::VecPredRegContainer &
@@ -926,7 +927,7 @@ ThreadContext::readVecPredReg(const RegId &reg_id) const
 ArmISA::VecPredRegContainer
 ThreadContext::readVecPredRegFlat(RegIndex idx) const
 {
-    return readVecPredReg(RegId(VecPredRegClass, idx));
+    return readVecPredReg(ArmISA::vecPredRegClass[idx]);
 }
 
 } // namespace Iris
