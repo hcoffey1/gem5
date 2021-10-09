@@ -76,6 +76,12 @@ class ISA : public BaseISA
     {
         panic("setMiscReg not implemented.");
     }
+
+    PCStateBase *
+    newPCState(Addr new_inst_addr=0) const override
+    {
+        return new ArmISA::PCState(new_inst_addr);
+    }
 };
 
 } // namespace Iris
