@@ -36,9 +36,9 @@ import argparse
 import glob
 from m5.objects import *
 from MI_example_caches import MyCacheSystem
-from common.ObjectList import ObjectList
 dir_path = os.path.dirname(os.path.realpath(__file__))
 m5.util.addToPath(dir_path + '/../../../../configs/')
+from common.ObjectList import ObjectList
 
 print('''Remember to add --debug-flags=RubyHitMiss so that the hits and misses
 information can be printed.

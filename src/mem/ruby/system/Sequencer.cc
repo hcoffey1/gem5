@@ -592,6 +592,12 @@ Sequencer::hitCallback(SequencerRequest* srequest, DataBlock& data,
         Addr line_addr = makeLineAddress(request_address);
         llscLoadLinked(line_addr);
     }
+
+    Cycles issued_time = srequest->issue_time;
+    assert(curCycle() >= issued_time);
+
+    Cycles total_latency = curCycle() - issued_time;
+
     DPRINTFR(RubyHitMiss, "Cache %s at %#x\n",
                          externalHit ? "miss" : "hit",
                          printAddress(request_address));

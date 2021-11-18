@@ -66,7 +66,7 @@ class MyCacheSystem(RubySystem):
 
         self.sequencers = [RubySequencer(version = 0,
                                 # I/D cache is combined and grab from ctrl
-                                icache = self.controllers[0].cacheMemory,
+                                #icache = self.controllers[0].cacheMemory,
                                 dcache = self.controllers[0].cacheMemory,
                                 clk_domain = self.controllers[0].clk_domain),]
 
@@ -81,10 +81,10 @@ class MyCacheSystem(RubySystem):
         # Set up a proxy port for the system_port. Used for load binaries and
         # other functional-only things.
         self.sys_port_proxy = RubyPortProxy()
-        system.system_port = self.sys_port_proxy.slave
+        system.system_port = self.sys_port_proxy.in_ports
 
         # Connect the generator's cache ports to Ruby
-        generator.port = self.controllers[0].sequencer.slave
+        generator.port = self.controllers[0].sequencer.in_ports
 
 class L1Cache(L1Cache_Controller):
 
@@ -135,13 +135,13 @@ class L1Cache(L1Cache_Controller):
         """
         self.mandatoryQueue = MessageBuffer()
         self.requestFromCache = MessageBuffer(ordered = True)
-        self.requestFromCache.master = ruby_system.network.slave
+        self.requestFromCache.out_port = ruby_system.network.in_port
         self.responseFromCache = MessageBuffer(ordered = True)
-        self.responseFromCache.master = ruby_system.network.slave
+        self.responseFromCache.out_port = ruby_system.network.in_port
         self.forwardToCache = MessageBuffer(ordered = True)
-        self.forwardToCache.slave = ruby_system.network.master
+        self.forwardToCache.in_port = ruby_system.network.out_port
         self.responseToCache = MessageBuffer(ordered = True)
-        self.responseToCache.slave = ruby_system.network.master
+        self.responseToCache.in_port = ruby_system.network.out_port
 
 class DirController(Directory_Controller):
 
@@ -167,18 +167,23 @@ class DirController(Directory_Controller):
 
     def connectQueues(self, ruby_system):
         self.requestToDir = MessageBuffer(ordered = True)
-        self.requestToDir.slave = ruby_system.network.master
+        self.requestToDir.in_port = ruby_system.network.out_port
         self.dmaRequestToDir = MessageBuffer(ordered = True)
-        self.dmaRequestToDir.slave = ruby_system.network.master
+        self.dmaRequestToDir.in_port = ruby_system.network.out_port
 
         self.responseFromDir = MessageBuffer()
-        self.responseFromDir.master = ruby_system.network.slave
+        self.responseFromDir.out_port = ruby_system.network.in_port
         self.dmaResponseFromDir = MessageBuffer(ordered = True)
-        self.dmaResponseFromDir.master = ruby_system.network.slave
+        self.dmaResponseFromDir.out_port = ruby_system.network.in_port
         self.forwardFromDir = MessageBuffer()
-        self.forwardFromDir.master = ruby_system.network.slave
+        self.forwardFromDir.out_port = ruby_system.network.in_port
         self.responseFromMemory = MessageBuffer()
 
+        self.requestToMemory = MessageBuffer()
+        #self.res
+
+        #out_port(memQueue_out, MemoryMsg, requestToMemory);
+        #out_port(responseNetwork_out, ResponseMsg, responseFromDir);
 class MyNetwork(SimpleNetwork):
     """A simple point-to-point network. This doesn't not use garnet.
     """
