@@ -48,6 +48,7 @@
 #include "debug/LLSC.hh"
 #include "debug/MemoryAccess.hh"
 #include "debug/ProtocolTrace.hh"
+#include "debug/RubyEvict.hh"
 #include "debug/RubyHitMiss.hh"
 #include "debug/RubySequencer.hh"
 #include "debug/RubyStats.hh"
@@ -861,6 +862,7 @@ Sequencer::recordRequestType(SequencerRequestType requestType) {
 void
 Sequencer::evictionCallback(Addr address)
 {
+    DPRINTFR(RubyEvict, "Cache evict at %#x\n", printAddress(address));
     llscClearMonitor(address);
     ruby_eviction_callback(address);
 }
